@@ -26,7 +26,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         webView = findViewById(R.id.webView);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient(){
+            public boolean shouldOverrideUrlLoading(WebView webView, String url) {
+                if (url != null && !url.contains("scuola.gbfactory.net")) {
+                    webView.getContext().startActivity(
+                            new Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    );
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
         webView.loadUrl("https://scuola.gbfactory.net");
 
         WebSettings webSettings = webView.getSettings();
